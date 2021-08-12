@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "ionix",
+    "slug": "ionix",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "ionix"
+}
