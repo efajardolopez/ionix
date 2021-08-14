@@ -2,14 +2,14 @@ import { PermissionsAndroid } from "react-native";
 
 const slides = [
   {
-    key: 0,
+    key: "0",
     title: "Camera Access",
     image: require("../assets/img/camera.png"),
     description: "Please allow access to your camera to take photos",
     permission: PermissionsAndroid.PERMISSIONS.CAMERA,
   },
   {
-    key: 1,
+    key: "1",
     image: require("../assets/img/notification.png"),
     title: "Enable push notifications",
     description:
@@ -17,7 +17,7 @@ const slides = [
     permission: PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
   },
   {
-    key: 2,
+    key: "2",
     image: require("../assets/img/location.png"),
     title: "Enable location services",
     description:
