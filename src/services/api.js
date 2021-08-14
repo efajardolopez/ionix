@@ -1,8 +1,8 @@
 import axios from "axios";
-// import { API_URL } from "react-native-dotenv";
-// console.warn(API_URL);
+import { API_URL } from "@env";
+
 const api = axios.create({
-  baseURL: "https://www.reddit.com", //API_URL,
+  baseURL: API_URL,
 });
 
 export default api;
