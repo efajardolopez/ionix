@@ -6,12 +6,15 @@ import {
   Image,
   RefreshControl,
   Keyboard,
+  TouchableOpacity,
 } from "react-native";
 import SearchInput from "../../components/SearchInput";
 import styles from "../styles";
 import api_memes from "../../services/resources/memes";
 import NoResults from "../../components/NoResults";
 import { IMAGE, SHITPOSTING } from "../../constants";
+import { connect } from "react-redux";
+import { setPermissions } from "../../actions/config";
 import Loading from "../../components/Loading";
 
 class index extends Component {
@@ -93,11 +96,16 @@ class index extends Component {
 
   render() {
     const { memes, fetching, fetching_bottom, after } = this.state;
-
+    const { setPermissions } = this.props;
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <View style={{ marginTop: 20, marginStart: 20 }}>
-          <Image source={require("../../assets/img/engine.png")} />
+          <TouchableOpacity
+            underlayColor="#DDDDDD"
+            onPress={() => setPermissions(false)}
+          >
+            <Image source={require("../../assets/img/engine.png")} />
+          </TouchableOpacity>
         </View>
         <SearchInput
           placeholder="Search"
@@ -144,4 +152,12 @@ class index extends Component {
   }
 }
 
-export default index;
+const mapStateToProps = (state) => ({
+  permissions_settings: state.configReducer.permissions_settings,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setPermissions: (data) => dispatch(setPermissions(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(index);

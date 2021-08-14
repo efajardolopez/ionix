@@ -11,6 +11,8 @@ import AppIntroSlider from "react-native-app-intro-slider";
 import LinearGradientButton from "../../components/LinearGradientButton";
 import slides from "../../constants/slides";
 import styles from "../styles";
+import { setPermissions } from "../../actions/config";
+import { connect } from "react-redux";
 
 class Slide extends Component {
   requestPermission = async (item) => {
@@ -27,10 +29,11 @@ class Slide extends Component {
   };
 
   _nextSlide = (key) => {
-    const { closeSlide } = this.props;
+    const { setPermissions } = this.props;
     let i = ++key;
     if (i >= slides.length) {
-      closeSlide();
+      // closeSlide();
+      setPermissions(true);
     } else {
       this.slider.goToSlide(key++, true);
     }
@@ -60,12 +63,11 @@ class Slide extends Component {
   };
 
   render() {
-    const { closeSlide } = this.props;
+    // const { closeSlide } = this.props;
     return (
       <AppIntroSlider
         renderItem={this._renderSlide}
         data={slides}
-        onDone={closeSlide}
         showNextButton={false}
         showSkipButton={false}
         showDoneButton={false}
@@ -78,4 +80,12 @@ class Slide extends Component {
   }
 }
 
-export default Slide;
+const mapStateToProps = (state) => ({
+  permissions_settings: state.configReducer.permissions_settings,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setPermissions: (data) => dispatch(setPermissions(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Slide);
