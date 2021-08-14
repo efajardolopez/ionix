@@ -1,18 +1,30 @@
 import React, { Component } from "react";
-import { Text, View, Image, TouchableOpacity } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  PermissionsAndroid,
+  Platform,
+} from "react-native";
 import AppIntroSlider from "react-native-app-intro-slider";
 import LinearGradientButton from "../../components/LinearGradientButton";
 import slides from "../../constants/slides";
 import styles from "../styles";
 
 class Slide extends Component {
-  // constructor(props) {
-  //   super(props);
-  // }
-
-  onClick() {
-    console.warn("click");
-  }
+  requestPermission = async (item) => {
+    try {
+      if (Platform.OS === "android") {
+        const granted = await PermissionsAndroid.request(item.permission);
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          this._nextSlide(item.key);
+        }
+      }
+    } catch (error) {
+      console.warn(error);
+    }
+  };
 
   _nextSlide = (key) => {
     const { closeSlide } = this.props;
@@ -33,7 +45,10 @@ class Slide extends Component {
         ></Image>
         <Text style={styles.titleSlide}>{item.title}</Text>
         <Text style={styles.descriptionSlide}>{item.description}</Text>
-        <LinearGradientButton title="Enable" onClick={this.onClick} />
+        <LinearGradientButton
+          title="Enable"
+          onClick={() => this.requestPermission(item)}
+        />
         <TouchableOpacity
           underlayColor="#DDDDDD"
           onPress={() => this._nextSlide(item.key)}
