@@ -134,7 +134,7 @@ class index extends Component {
             onScrollBeginDrag={Keyboard.dismiss}
             onScroll={({ nativeEvent }) => {
               if (this.isCloseToBottom(nativeEvent)) {
-                this.setState({ fetching_bottom: true });
+                this.setState({ fetchingBottom: true });
                 this.fetchMemes("", after, true);
               }
             }}
