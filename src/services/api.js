@@ -5,6 +5,7 @@
  * es libre por lo que no fue necesario implementar el envio de token a través del header de los Requests HTTP
  */
 import axios from "axios";
+// eslint-disable-next-line import/no-unresolved
 import { API_URL } from "@env";
 
 const api = axios.create({

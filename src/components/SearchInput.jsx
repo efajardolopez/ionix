@@ -2,24 +2,32 @@
  * Componente input de búsqueda
  * Se define como componente para reutilizarlo de manera rápida en nuevas pantallas
  */
-import React, { Component } from "react";
+import React from "react";
+import PropTypes from 'prop-types';
 import { TextInput, View, Image } from "react-native";
 import styles from "../pages/styles";
 
-export default class SearchInput extends Component {
-  render() {
-    const { placeholder, onChange } = this.props;
+const lens = require("../assets/img/lupa.png");
+
+const SearchInput = (props) => {
+    const { placeholder, onChange } = props;
     return (
       <View style={styles.searchContainer}>
         <View style={styles.searchIcon}>
-          <Image source={require("../assets/img/lupa.png")}></Image>
+          <Image source={lens} />
         </View>
         <TextInput
           placeholder={placeholder}
           style={styles.searchInput}
           onChangeText={(text) => onChange(text)}
-        ></TextInput>
+          />
       </View>
     );
-  }
 }
+
+SearchInput.propTypes = {
+  placeholder: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired
+}
+
+export default SearchInput;

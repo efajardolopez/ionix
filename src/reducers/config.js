@@ -16,7 +16,6 @@ const configReducer = (state = initialState, action) => {
         ...state,
         permissions_settings: action.data,
       };
-      break;
     default:
       return state;
   }

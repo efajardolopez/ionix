@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { PermissionsAndroid, Platform } from "react-native";
+import { Alert, PermissionsAndroid, Platform } from "react-native";
 import AppIntroSlider from "react-native-app-intro-slider";
 import slides from "../../constants/slides";
 import { setPermissions } from "../../actions/config";
@@ -16,7 +16,7 @@ class Slide extends Component {
         }
       }
     } catch (error) {
-      console.warn(error);
+      Alert.alert(error.message);
     }
   };
 
@@ -49,7 +49,6 @@ class Slide extends Component {
         showNextButton={false}
         showSkipButton={false}
         showDoneButton={false}
-        style={{ backgroundColor: "#fff" }}
         dotStyle={{ backgroundColor: "rgb(255,255,255)" }}
         activeDotStyle={{ backgroundColor: "rgb(255,255,255)" }}
         ref={(ref) => (this.slider = ref)}
