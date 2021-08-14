@@ -1,62 +1,71 @@
 import React, { Component } from "react";
-import { FlatList } from "react-native";
 import {
   ScrollView,
   Text,
   View,
   Image,
   RefreshControl,
-  Dimensions,
+  Keyboard,
 } from "react-native";
-import { Icon } from "react-native-elements";
 import SearchInput from "../../components/SearchInput";
 import styles from "../styles";
+import api_memes from "../../services/resources/memes";
+import NoResults from "../../components/NoResults";
+import { IMAGE, SHITPOSTING } from "../../constants";
+import Loading from "../../components/Loading";
 
 class index extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      memes: [
-        {
-          key: 1,
-          url: "https://i.redd.it/hc6r5afpwqg71.jpg",
-          title: "Año 3000 y esta socia aún no puede ganar el rosco",
-          score: 32,
-          num_comments: 45,
-        },
-        {
-          key: 2,
-          url: "https://i.redd.it/0kxa1ep2d0h71.jpg",
-          title: "Año 3000 y esta socia aún no puede ganar el rosco",
-          score: 9,
-          num_comments: 10,
-        },
-        {
-          key: 3,
-          url: "https://i.redd.it/0kxa1ep2d0h71.jpg",
-          title: "Año 3000 y esta socia aún no puede ganar el rosco",
-          score: 9,
-          num_comments: 10,
-        },
-        {
-          key: 4,
-          url: "https://i.redd.it/0kxa1ep2d0h71.jpg",
-          title: "Año 3000 y esta socia aún no puede ganar el rosco",
-          score: 9,
-          num_comments: 10,
-        },
-        {
-          key: 5,
-          url: "https://i.redd.it/0kxa1ep2d0h71.jpg",
-          title: "Año 3000 y esta socia aún no puede ganar el rosco",
-          score: 9,
-          num_comments: 10,
-        },
-      ],
+      memes: [],
+      after: "",
+      fetching: true,
+      fetching_bottom: false,
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.fetchMemes();
+  }
+
+  filterMemes(memes) {
+    return memes.filter((meme) => {
+      return (
+        meme.data.post_hint === IMAGE &&
+        meme.data.link_flair_text === SHITPOSTING
+      );
+    });
+  }
+
+  fetchMemes(search = "", after = "", concat = false) {
+    let { memes } = this.state;
+    api_memes.getMemes(search, after).then((response) => {
+      const { children, after } = response.data;
+      let results = this.filterMemes(children);
+      let data = results.map((result) => {
+        return result.data;
+      });
+
+      if (concat) {
+        this.setState({ memes: memes.concat(data) });
+      } else {
+        this.setState({ memes: data });
+      }
+
+      this.setState({
+        fetching: false,
+        fetching_bottom: false,
+        after,
+      });
+    });
+  }
+
+  isCloseToBottom({ layoutMeasurement, contentOffset, contentSize }) {
+    return (
+      layoutMeasurement.height + contentOffset.y >= contentSize.height - 20
+    );
+  }
 
   _renderItem(item, index) {
     return (
@@ -71,7 +80,6 @@ class index extends Component {
           <View style={{ flex: 5 }}>
             <Text style={styles.memeTitle}>{item.title}</Text>
             <View style={{ flex: 1, flexDirection: "row", marginBottom: 15 }}>
-              {/* <Icon name="comment" type="evilicon" color="#517fa4" size={18} /> */}
               <Image source={require("../../assets/img/comments.png")}></Image>
               <Text style={[styles.memeNumComments, { flex: 1 }]}>
                 {item.num_comments}
@@ -84,28 +92,53 @@ class index extends Component {
   }
 
   render() {
-    const { memes } = this.state;
+    const { memes, fetching, fetching_bottom, after } = this.state;
+
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <View style={{ marginTop: 20, marginStart: 20 }}>
           <Image source={require("../../assets/img/engine.png")} />
         </View>
-        <SearchInput placeholder="Search"></SearchInput>
-        <ScrollView
-          style={{ flex: 1 }}
-          refreshControl={
-            <RefreshControl
-              refreshing={false}
-              onRefresh={console.warn("loading")}
-            />
-          }
-        >
-          <View style={{ flex: 1, paddingStart: 20, paddingEnd: 20 }}>
-            {memes.map((meme, index) => {
-              return this._renderItem(meme, index);
-            })}
-          </View>
-        </ScrollView>
+        <SearchInput
+          placeholder="Search"
+          onChange={(text) => {
+            this.setState({ fetching: true });
+            this.fetchMemes(text);
+          }}
+        ></SearchInput>
+
+        {memes.length ? (
+          <ScrollView
+            style={{ flex: 1 }}
+            ref={(ref) => (this._scrollView = ref)}
+            onScrollBeginDrag={Keyboard.dismiss}
+            onScroll={({ nativeEvent }) => {
+              if (this.isCloseToBottom(nativeEvent)) {
+                this.setState({ fetching_bottom: true });
+                this.fetchMemes("", after, true);
+              }
+            }}
+            scrollEventThrottle={500}
+            refreshControl={
+              <RefreshControl
+                refreshing={fetching}
+                onRefresh={() => {
+                  this.setState({ fetching: true });
+                  this.fetchMemes();
+                }}
+              />
+            }
+          >
+            <View style={{ flex: 1, paddingStart: 20, paddingEnd: 20 }}>
+              {memes.map((meme, index) => {
+                return this._renderItem(meme, index);
+              })}
+            </View>
+            {fetching_bottom ? <Loading /> : null}
+          </ScrollView>
+        ) : (
+          <NoResults />
+        )}
       </View>
     );
   }

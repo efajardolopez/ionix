@@ -1,19 +1,19 @@
 import React, { Component } from "react";
-import { TextInput, View } from "react-native";
-import { Icon } from "react-native-elements";
+import { TextInput, View, Image } from "react-native";
 import styles from "../pages/styles";
 
 export default class SearchInput extends Component {
   render() {
-    const { placeholder } = this.props;
+    const { placeholder, onChange } = this.props;
     return (
       <View style={styles.searchInput}>
-        <View style={styles.viewIcon}>
-          <Icon name="search" color={"#636363"}></Icon>
+        <View style={styles.lens}>
+          <Image source={require("../assets/img/lupa.png")}></Image>
         </View>
         <TextInput
           placeholder={placeholder}
-          style={{ fontSize: 19 }}
+          style={{ fontSize: 19, color: "#636363" }}
+          onChangeText={(text) => onChange(text)}
         ></TextInput>
       </View>
     );
