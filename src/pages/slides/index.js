@@ -69,6 +69,9 @@ class Slide extends Component {
         showNextButton={false}
         showSkipButton={false}
         showDoneButton={false}
+        style={{ backgroundColor: "#fff" }}
+        dotStyle={{ backgroundColor: "rgb(255,255,255)" }}
+        activeDotStyle={{ backgroundColor: "rgb(255,255,255)" }}
         ref={(ref) => (this.slider = ref)}
       ></AppIntroSlider>
     );
