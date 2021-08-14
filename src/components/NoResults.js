@@ -1,3 +1,7 @@
+/**
+ * Componente búsqueda sin resultado
+ * Se define como componente para reutilizarlo de manera rápida en nuevas pantallas
+ */
 import React from "react";
 import { Image, View, Text } from "react-native";
 import styles from "../pages/styles";

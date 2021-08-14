@@ -1,3 +1,8 @@
+/**
+ * Componente boton con efecto de degrade.
+ * Se define como componente para reutilizarlo de manera rápida en nuevas pantallas
+ */
+
 import React, { Component } from "react";
 import { Text, View, TouchableOpacity } from "react-native";
 import LinearGradient from "react-native-linear-gradient";

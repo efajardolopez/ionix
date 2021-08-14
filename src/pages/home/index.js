@@ -10,12 +10,25 @@ import {
 } from "react-native";
 import SearchInput from "../../components/SearchInput";
 import styles from "../styles";
+
+// Servicio Rest para obtener listado de memes
 import api_memes from "../../services/resources/memes";
+
+// Componente de no resultado
 import NoResults from "../../components/NoResults";
+// Constantes para filtrar resultados
 import { IMAGE, SHITPOSTING } from "../../constants";
+
 import { connect } from "react-redux";
+
+// Import de action para copiarlo en las properties de nuestro componente y poder utilizarlo
 import { setPermissions } from "../../actions/config";
+
+// Componente de loading
 import Loading from "../../components/Loading";
+
+// Componente interno de la vista Home: detalle de memes
+import Item from "./components/item";
 
 class index extends Component {
   constructor(props) {
@@ -32,6 +45,15 @@ class index extends Component {
     this.fetchMemes();
   }
 
+  componentWillUnmount() {}
+
+  /**
+   *
+   * Función encargada de filtrar resultados en base a post_hint y link_flair_text indicados en test
+   * @param {*} memes
+   * @returns
+   * @memberof index
+   */
   filterMemes(memes) {
     return memes.filter((meme) => {
       return (
@@ -50,6 +72,11 @@ class index extends Component {
         return result.data;
       });
 
+      /**
+       * Para la paginación solicitada se implementó un Scroll infinito cuya funcionalidad es ir concatenando
+       * los nuevos resultados a partir de la búsqueda por el campo after
+       */
+
       if (concat) {
         this.setState({ memes: memes.concat(data) });
       } else {
@@ -64,6 +91,13 @@ class index extends Component {
     });
   }
 
+  /**
+   *
+   * Función que permitirá gatillar en el componente ScrollView una llamada al servicio rest (siguiente página)
+   * @param {*} { layoutMeasurement, contentOffset, contentSize }
+   * @returns
+   * @memberof index
+   */
   isCloseToBottom({ layoutMeasurement, contentOffset, contentSize }) {
     return (
       layoutMeasurement.height + contentOffset.y >= contentSize.height - 20
@@ -71,27 +105,7 @@ class index extends Component {
   }
 
   _renderItem(item, index) {
-    return (
-      <View key={index} style={[styles.memeContainer, { padding: 0 }]}>
-        <Image source={{ uri: item.url }} style={styles.memeImage}></Image>
-        <View style={{ flex: 1, flexDirection: "row", marginTop: 10 }}>
-          <View style={{ flex: 1, alignItems: "center" }}>
-            <Image source={require("../../assets/img/arrow-up.png")}></Image>
-            <Text style={styles.memeScore}>{item.score}</Text>
-            <Image source={require("../../assets/img/arrow-down.png")}></Image>
-          </View>
-          <View style={{ flex: 5 }}>
-            <Text style={styles.memeTitle}>{item.title}</Text>
-            <View style={{ flex: 1, flexDirection: "row", marginBottom: 15 }}>
-              <Image source={require("../../assets/img/comments.png")}></Image>
-              <Text style={[styles.memeNumComments, { flex: 1 }]}>
-                {item.num_comments}
-              </Text>
-            </View>
-          </View>
-        </View>
-      </View>
-    );
+    return <Item key={index} item={item} index={index} />;
   }
 
   render() {
@@ -144,18 +158,26 @@ class index extends Component {
             </View>
             {fetching_bottom ? <Loading /> : null}
           </ScrollView>
-        ) : (
+        ) : !fetching ? (
           <NoResults />
+        ) : (
+          <Loading />
         )}
       </View>
     );
   }
 }
 
+/**
+ * Definición de estado en properties de nuestro componente
+ */
 const mapStateToProps = (state) => ({
   permissions_settings: state.configReducer.permissions_settings,
 });
 
+/**
+ * Definición de función (action) en properties de nuestro componente
+ */
 const mapDispatchToProps = (dispatch) => ({
   setPermissions: (data) => dispatch(setPermissions(data)),
 });

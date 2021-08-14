@@ -1,3 +1,7 @@
+/**
+ * Componente input de búsqueda
+ * Se define como componente para reutilizarlo de manera rápida en nuevas pantallas
+ */
 import React, { Component } from "react";
 import { TextInput, View, Image } from "react-native";
 import styles from "../pages/styles";

@@ -1,5 +1,8 @@
 import { PermissionsAndroid } from "react-native";
-
+/**
+ * Definición de arreglo de slides, cuya información nos servirá para desplegar título/descripción
+ * y solicitar el permiso correspondiente
+ */
 const slides = [
   {
     key: "0",

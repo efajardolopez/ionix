@@ -1,18 +1,10 @@
 import React, { Component } from "react";
-import {
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  PermissionsAndroid,
-  Platform,
-} from "react-native";
+import { PermissionsAndroid, Platform } from "react-native";
 import AppIntroSlider from "react-native-app-intro-slider";
-import LinearGradientButton from "../../components/LinearGradientButton";
 import slides from "../../constants/slides";
-import styles from "../styles";
 import { setPermissions } from "../../actions/config";
 import { connect } from "react-redux";
+import Item from "./components/item";
 
 class Slide extends Component {
   requestPermission = async (item) => {
@@ -32,7 +24,6 @@ class Slide extends Component {
     const { setPermissions } = this.props;
     let i = ++key;
     if (i >= slides.length) {
-      // closeSlide();
       setPermissions(true);
     } else {
       this.slider.goToSlide(key++, true);
@@ -41,29 +32,16 @@ class Slide extends Component {
 
   _renderSlide = ({ item }) => {
     return (
-      <View style={{ flex: 1, alignItems: "center" }}>
-        <Image
-          source={item.image}
-          style={{ marginBottom: 48, marginTop: "20%" }}
-        ></Image>
-        <Text style={styles.titleSlide}>{item.title}</Text>
-        <Text style={styles.descriptionSlide}>{item.description}</Text>
-        <LinearGradientButton
-          title="Enable"
-          onClick={() => this.requestPermission(item)}
-        />
-        <TouchableOpacity
-          underlayColor="#DDDDDD"
-          onPress={() => this._nextSlide(item.key)}
-        >
-          <Text style={styles.cancelButton}>Cancel</Text>
-        </TouchableOpacity>
-      </View>
+      <Item
+        key={item.key}
+        item={item}
+        requestPermission={() => this.requestPermission(item)}
+        nextSlide={() => this._nextSlide(item.key)}
+      />
     );
   };
 
   render() {
-    // const { closeSlide } = this.props;
     return (
       <AppIntroSlider
         renderItem={this._renderSlide}
