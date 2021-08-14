@@ -1,25 +1,23 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import {
   ScrollView,
-  Text,
   View,
   Image,
   RefreshControl,
   Keyboard,
   TouchableOpacity,
 } from "react-native";
+import { connect } from "react-redux";
 import SearchInput from "../../components/SearchInput";
-import styles from "../styles";
 
 // Servicio Rest para obtener listado de memes
-import api_memes from "../../services/resources/memes";
+import apiMemes from "../../services/resources/memes";
 
 // Componente de no resultado
 import NoResults from "../../components/NoResults";
 // Constantes para filtrar resultados
 import { IMAGE, SHITPOSTING } from "../../constants";
-
-import { connect } from "react-redux";
 
 // Import de action para copiarlo en las properties de nuestro componente y poder utilizarlo
 import { setPermissions } from "../../actions/config";
@@ -30,6 +28,8 @@ import Loading from "../../components/Loading";
 // Componente interno de la vista Home: detalle de memes
 import Item from "./components/item";
 
+const engineIcon = require("../../assets/img/engine.png");
+
 class index extends Component {
   constructor(props) {
     super(props);
@@ -37,7 +37,7 @@ class index extends Component {
       memes: [],
       after: "",
       fetching: true,
-      fetching_bottom: false,
+      fetchingBottom: false,
     };
   }
 
@@ -54,23 +54,20 @@ class index extends Component {
    * @returns
    * @memberof index
    */
-  filterMemes(memes) {
-    return memes.filter((meme) => {
-      return (
+  filterMemes = (memes) => {
+    return memes.filter(
+      (meme) =>
         meme.data.post_hint === IMAGE &&
         meme.data.link_flair_text === SHITPOSTING
-      );
-    });
-  }
+    );
+  };
 
-  fetchMemes(search = "", after = "", concat = false) {
-    let { memes } = this.state;
-    api_memes.getMemes(search, after).then((response) => {
+  fetchMemes(search = "", afterFilter = "", concat = false) {
+    const { memes } = this.state;
+    apiMemes.getMemes(search, afterFilter).then((response) => {
       const { children, after } = response.data;
-      let results = this.filterMemes(children);
-      let data = results.map((result) => {
-        return result.data;
-      });
+      const results = this.filterMemes(children);
+      const data = results.map((result) => result.data);
 
       /**
        * Para la paginación solicitada se implementó un Scroll infinito cuya funcionalidad es ir concatenando
@@ -85,7 +82,7 @@ class index extends Component {
 
       this.setState({
         fetching: false,
-        fetching_bottom: false,
+        fetchingBottom: false,
         after,
       });
     });
@@ -109,8 +106,9 @@ class index extends Component {
   }
 
   render() {
-    const { memes, fetching, fetching_bottom, after } = this.state;
+    const { memes, fetching, fetchingBottom, after } = this.state;
     const { setPermissions } = this.props;
+
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <View style={{ marginTop: 35, marginStart: 20 }}>
@@ -118,7 +116,7 @@ class index extends Component {
             underlayColor="#DDDDDD"
             onPress={() => setPermissions(false)}
           >
-            <Image source={require("../../assets/img/engine.png")} />
+            <Image source={engineIcon} />
           </TouchableOpacity>
         </View>
         <SearchInput
@@ -127,7 +125,7 @@ class index extends Component {
             this.setState({ fetching: true });
             this.fetchMemes(text);
           }}
-        ></SearchInput>
+        />
 
         {memes.length ? (
           <ScrollView
@@ -152,11 +150,9 @@ class index extends Component {
             }
           >
             <View style={{ flex: 1, paddingStart: 20, paddingEnd: 20 }}>
-              {memes.map((meme, index) => {
-                return this._renderItem(meme, index);
-              })}
+              {memes.map((meme, index) => this._renderItem(meme, index))}
             </View>
-            {fetching_bottom ? <Loading /> : null}
+            {fetchingBottom ? <Loading /> : null}
           </ScrollView>
         ) : !fetching ? (
           <NoResults />
@@ -167,6 +163,10 @@ class index extends Component {
     );
   }
 }
+
+index.propTypes = {
+  setPermissions: PropTypes.func.isRequired,
+};
 
 /**
  * Definición de estado en properties de nuestro componente
