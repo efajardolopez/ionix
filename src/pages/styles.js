@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     paddingStart: 30,
     paddingEnd: 30,
   },
-  searchInput: {
+  searchContainer: {
     backgroundColor: "#EDEDED",
     opacity: 0.6,
     fontFamily: "HelveticaNeue",
@@ -59,8 +59,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     margin: 20,
   },
-  lens: {
-    padding: 12,
+  searchIcon: {
+    flex: 1,
+    marginTop: 12,
+    marginStart: 12,
+    marginBottom: 12,
+  },
+  searchInput: {
+    fontSize: 19,
+    color: "#636363",
+    flex: 9,
   },
   memeContainer: {
     backgroundColor: "#fff",
@@ -85,6 +93,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "HelveticaNeue",
     marginBottom: 20,
+    paddingEnd: 10,
   },
   memeNumComments: {
     fontFamily: "HelveticaNeue",

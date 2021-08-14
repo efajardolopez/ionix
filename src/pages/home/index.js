@@ -99,7 +99,7 @@ class index extends Component {
     const { setPermissions } = this.props;
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
-        <View style={{ marginTop: 20, marginStart: 20 }}>
+        <View style={{ marginTop: 35, marginStart: 20 }}>
           <TouchableOpacity
             underlayColor="#DDDDDD"
             onPress={() => setPermissions(false)}
