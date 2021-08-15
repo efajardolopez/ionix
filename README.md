@@ -9,16 +9,16 @@
 
 ## General
 
-Aplicación de los memes de Chile implementando los servicios básicos de la API de Reddit.
+Aplicación mobile híbrida de los memes de Chile implementando los servicios básicos de la API de Reddit.
 
 ## Tecnologías
 
-IDE: VsCode v1.59
-Extensiones VSCode: Eslint v2.1.23 - Prettier (Code formatter) v8.1.0
-Gestor de dependencias: yarn v1.22.10
-Node v13.8.0
-React Native v0.63
-git 2.32.0 (utilización de git flow)
+1. IDE: VsCode v1.59
+2. Extensiones VSCode: Eslint v2.1.23 - Prettier (Code formatter) v8.1.0
+3. Gestor de dependencias: yarn v1.22.10
+4. Node v13.8.0
+5. React Native v0.63
+6. git 2.32.0 (utilización de git flow)
 
 ### Dependencias
 
