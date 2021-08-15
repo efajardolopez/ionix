@@ -3,7 +3,7 @@
 ## Tabla de contenido
 
 1. [General](#General)
-2. [Tecnologias](#Tecnologias)
+2. [Tecnologías](#Tecnologías)
 3. [Instalación](#Instalación)
 4. [TODO](#todo)
 
