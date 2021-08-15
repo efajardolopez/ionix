@@ -8,7 +8,7 @@ import styles from "../pages/styles";
 
 const photo = require("../assets/img/no-results.png");
 
-const NoResults = () => {
+const NoResults = () => (
   <View style={styles.NoResultsContainer}>
     <Image
       source={photo}
@@ -18,7 +18,7 @@ const NoResults = () => {
     <Text style={styles.NoResultsDescription}>
       Sorry, there are no results for this search. Please try another phrase
     </Text>
-  </View>;
-};
+  </View>
+);
 
 export default NoResults;

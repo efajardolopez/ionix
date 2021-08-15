@@ -120,6 +120,7 @@ class index extends Component {
           </TouchableOpacity>
         </View>
         <SearchInput
+          testID="searchInput"
           placeholder="Search"
           onChange={(text) => {
             this.setState({ fetching: true });

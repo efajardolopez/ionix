@@ -12,7 +12,7 @@ const lens = require("../assets/img/lupa.png");
 const SearchInput = (props) => {
     const { placeholder, onChange } = props;
     return (
-      <View style={styles.searchContainer}>
+      <View style={styles.searchContainer} testID="searchView">
         <View style={styles.searchIcon}>
           <Image source={lens} />
         </View>

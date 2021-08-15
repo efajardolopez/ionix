@@ -5,18 +5,18 @@ import { View } from "react-native";
 import SplashScreen from "react-native-splash-screen";
 
 /**
+ * Importamos connect para obtener variable de redux que nos permite verificar si el usuario ya pasó inicialmente
+ * por el slide de configuración de permisos
+ */
+import { connect } from "react-redux";
+
+/**
  * Importamos vistas (componentes: Slide y Home)
  * Dadas las características de la prueba no es necesario implementar navegación (ya que son sólo 2 vistas)
  */
 import Slide from "./src/pages/slides";
 import Home from "./src/pages/home";
 import styles from "./src/pages/styles";
-
-/**
- * Importamos connect para obtener variable de redux que nos permite verificar si el usuario ya pasó inicialmente
- * por el slide de configuración de permisos
- */
-import { connect } from "react-redux";
 
 class App extends Component {
   constructor(props) {
