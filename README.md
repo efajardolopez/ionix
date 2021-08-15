@@ -38,6 +38,10 @@ Aplicación mobile híbrida de los memes de Chile implementando los servicios b�
 5. Dependencias de ios, ejecutar en raíz: cd ios && pod install && cd ..
 6. Ejecutar yarn android o yarn ios
 
+### Para ejecutar pruebas unitarias
+
+1. yarn test
+
 ## TODO
 
 A modo de transparencia los puntos que quedaron pendientes fueron:
