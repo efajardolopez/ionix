@@ -31,9 +31,10 @@ Aplicación mobile híbrida de los memes de Chile implementando los servicios b�
 ## Instalación
 
 1. Realizar clone de proyecto (git clone)
-2. Ingresar por consola a raíz del proyecto
-3. Ejecutar yarn install
-4. Ejecutar yarn android y/o yarn ios
+2. Ingresar por consola a raíz del proyecto crear archivo .env
+3. En archivo agregar línea: API_URL=https://www.reddit.com
+4. Ejecutar yarn install
+5. Ejecutar yarn android y/o yarn ios
 
 ## TODO
 
