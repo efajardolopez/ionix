@@ -7,7 +7,7 @@
 3. [Instalación](#Instalación)
 4. [TODO](#todo)
 
-## Información General
+## General
 
 Aplicación de los memes de Chile implementando los servicios básicos de la API de Reddit.
 
