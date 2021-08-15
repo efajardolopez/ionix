@@ -2,7 +2,7 @@
 
 ## Tabla de contenido
 
-1. [Información General](#Información General)
+1. [Geneal](#General)
 2. [Tecnologias](#Tecnologias)
 3. [Instalación](#Instalación)
 4. [TODO](#todo)
