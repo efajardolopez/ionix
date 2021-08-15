@@ -2,9 +2,9 @@
 
 ## Tabla de contenido
 
-1. [Información General](#general-info)
-2. [Tecnologias](#technologies)
-3. [Instalacion](#installation)
+1. [Información General](#Información General)
+2. [Tecnologias](#Tecnologias)
+3. [Instalación](#Instalación)
 4. [TODO](#todo)
 
 ## Información General
